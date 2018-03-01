@@ -11,12 +11,12 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser(description='Solve car sharing problem')
 
-    parser.add_argument('--input_file',   help='Path to input file.', required=True)
-    parser.add_argument('--output_file',  help='Path to output file', required=True)
+    parser.add_argument('--input',   help='Path to input file.', required=True)
+    parser.add_argument('--output',  help='Path to output file', required=True)
 
     args = parser.parse_args()
-    inPath  = args.input_file
-    outPath = args.output_file
+    inPath  = args.input
+    outPath = args.output
 
     print("Parsing...")
     rides, rows, cols, numCars, numRides, bonus, maxTime = parseIn(inPath)
@@ -29,10 +29,12 @@ def main(argv=None):
     # build graph
     graph = Graph(rows, cols, maxTime)
 
-    #TODO add weights
+    # add weights
+    graph.add_rides_to_graph(rides)
 
+    # build schedule greedily (car by car)
     schedule = []
-    for i in numCars:
+    for car in numCars:
         edges = graph.find_shortest_path()
         ridesTaken = []
         for edge in edges:
@@ -42,6 +44,7 @@ def main(argv=None):
         schedule.append(ridesTaken)
         graph.remove_rides(ridesTaken)
 
+    # write solution to file
     print("Writing solution to file...")
     parseOut(outPath, schedule)
 
