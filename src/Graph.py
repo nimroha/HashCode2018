@@ -37,9 +37,10 @@ class Graph:
         # plt.show()
         self.dg = dg
 
-    def remove_rides(self, ride_schedule):
-        # TODO
-        pass
+    def remove_rides(self, ride_ids):
+        for edge in self.dg.edges:
+            if 'label' in edge and edge['label'] in ride_ids:
+                self.dg.remove_edge(edge[0], edge[1])
 
     def find_shortest_path(self):
         try:
