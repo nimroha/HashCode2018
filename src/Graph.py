@@ -55,16 +55,16 @@ class Graph:
         return path_of_edges
 
 
-def add_rides_to_graph(rides, graph):
-    for ride in rides:
-        ride_dist = utils.ride_distance(ride)
-        ride_duplications = ride['endTime'] - ride['startTime'] - ride_dist
-        for t in range(ride['startTime'], ride['startTime'] + ride_duplications):
-            graph.add_edge((ride['startPoint'][0], ride['startPoint'][1], t), (ride['endPoint'][0], ride['endPoint'][1], t + ride_dist), wheight=-ride_dist, label=ride['rideNum'])
-    return graph
+    def add_rides_to_graph(self, rides):
+        for ride in rides:
+            ride_dist = utils.ride_distance(ride)
+            ride_duplications = ride['endTime'] - ride['startTime'] - ride_dist
+            for t in range(ride['startTime'], ride['startTime'] + ride_duplications):
+                self.dg.add_edge((ride['startPoint'][0], ride['startPoint'][1], t), (ride['endPoint'][0], ride['endPoint'][1], t + ride_dist), wheight=-ride_dist, label=ride['rideNum'])
+        return self.dg
 
-rides, R, C, numCars, numRides, bonus, T = Parser.parseIn(r"C:\src\HashCode2018\inputs\a_example.in")
-G = Graph(R,C,T)
-DG = add_rides_to_graph(rides,G.dg)
-nx.draw(DG)
-plt.show()
+# rides, R, C, numCars, numRides, bonus, T = Parser.parseIn(r"C:\src\HashCode2018\inputs\a_example.in")
+# G = Graph(R,C,T)
+# DG = add_rides_to_graph(rides,G.dg)
+# nx.draw(DG)
+# plt.show()
