@@ -40,7 +40,7 @@ def main(argv=None):
                 ridesTaken.append(edge['label'])
         ridesTaken.sort()
         schedule.append(ridesTaken)
-        #TODO call remove taken rides
+        graph.remove_rides(ridesTaken)
 
     print("Writing solution to file...")
     parseOut(outPath, schedule)
