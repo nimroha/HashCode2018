@@ -41,6 +41,7 @@ def main(argv=None):
             if 'label' in edge:
                 ridesTaken.append(edge['label'])
         ridesTaken.sort()
+        print("Taken rides: ", ridesTaken)
         schedule.append(ridesTaken)
         graph.remove_rides(ridesTaken)
 
