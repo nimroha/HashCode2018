@@ -20,27 +20,27 @@ class Graph:
             r, c, t = node
             if t < T - 1:
 
-                dg.add_edge(node, (r, c, t + 1), weight=1)
+                dg.add_edge(node, (r, c, t + 1), weight=1, label='none')
                 if c + 1 < C:
-                    dg.add_edge(node, (r, c + 1, t + 1), weight=1)
+                    dg.add_edge(node, (r, c + 1, t + 1), weight=1, label='none')
                 if c > 0:
-                    dg.add_edge(node, (r, c - 1, t + 1), weight=1)
+                    dg.add_edge(node, (r, c - 1, t + 1), weight=1, label='none')
                 if r + 1 < R:
-                    dg.add_edge(node, (r + 1, c, t + 1), weight=1)
+                    dg.add_edge(node, (r + 1, c, t + 1), weight=1, label='none')
                 if r > 0:
-                    dg.add_edge(node, (r - 1, c, t + 1), weight=1)
+                    dg.add_edge(node, (r - 1, c, t + 1), weight=1, label='none')
 
             else:
-                dg.add_edge(node, self.end_node, weight=0)
+                dg.add_edge(node, self.end_node, weight=0, label='none')
 
         # nx.draw(dg)
         # plt.show()
         self.dg = dg
 
     def remove_rides(self, ride_ids):
-        for edge in self.dg.edges:
-            if 'label' in edge and edge['label'] in ride_ids:
-                self.dg.remove_edge(edge[0], edge[1])
+        for (u,v),label in nx.get_edge_attributes(self.dg, 'label').items():
+            if label != 'none' and label in ride_ids:
+                self.dg.remove_edge(u, v)
 
     def find_shortest_path(self):
         try:
@@ -48,7 +48,7 @@ class Graph:
             path_of_edges = []
             for i in range(len(path_of_nodes) - 1):
                 edge = (path_of_nodes[i], path_of_nodes[i+1])
-                path_of_edges.append(edge)
+                path_of_edges.append(self.dg.edges[edge])
         except NetworkXNoPath as e:
             print(e)
             path_of_edges = []
@@ -61,7 +61,7 @@ class Graph:
             ride_dist = utils.ride_distance(ride)
             ride_duplications = ride['endTime'] - ride['startTime'] - ride_dist
             for t in range(ride['startTime'], ride['startTime'] + ride_duplications):
-                self.dg.add_edge((ride['startPoint'][0], ride['startPoint'][1], t), (ride['endPoint'][0], ride['endPoint'][1], t + ride_dist), wheight=-ride_dist, label=ride['rideNum'])
+                self.dg.add_edge((ride['startPoint'][0], ride['startPoint'][1], t), (ride['endPoint'][0], ride['endPoint'][1], t + ride_dist), weight=-ride_dist, label=ride['rideNum'])
         return self.dg
 
 # rides, R, C, numCars, numRides, bonus, T = Parser.parseIn(r"C:\src\HashCode2018\inputs\a_example.in")

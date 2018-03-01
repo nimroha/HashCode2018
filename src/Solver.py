@@ -20,7 +20,7 @@ def main(argv=None):
 
     print("Parsing...")
     rides, rows, cols, numCars, numRides, bonus, maxTime = parseIn(inPath)
-    print("numCars: {n}, numRides: {m}, gridSize: ({y}x{x}), totalTime: {t}".format(n=numCars,
+    print("numCars: {n}, numRides: {m}, gridSize: ({y},{x}), totalTime: {t}".format(n=numCars,
                                                                                     m=numRides,
                                                                                     x=cols,
                                                                                     y=rows,
@@ -36,9 +36,10 @@ def main(argv=None):
     schedule = []
     for car in range(numCars):
         edges = graph.find_shortest_path()
+        print(edges)
         ridesTaken = []
         for edge in edges:
-            if 'label' in edge:
+            if edge['label'] != 'none':
                 ridesTaken.append(edge['label'])
         ridesTaken.sort()
         print("Taken rides: ", ridesTaken)
