@@ -3,6 +3,7 @@ import sys
 import argparse
 
 from src.Parser import parseIn, parseOut
+from src.Graph import Graph
 
 def main(argv=None):
     if argv is None:
@@ -24,12 +25,24 @@ def main(argv=None):
                                                                                     x=cols,
                                                                                     y=rows,
                                                                                     t=maxTime))
-
     print("Solving...")
-    #TODO solve problem
+    # build graph
+    graph = Graph(rows, cols, maxTime)
+
+    #TODO add weights
+
+    schedule = []
+    for i in numCars:
+        edges = graph.find_shortest_path()
+        ridesTaken = []
+        for edge in edges:
+            if 'label' in edge:
+                ridesTaken.append(edge['label'])
+        ridesTaken.sort()
+        schedule.append(ridesTaken)
+        #TODO call remove taken rides
 
     print("Writing solution to file...")
-    schedule = []
     parseOut(outPath, schedule)
 
     print("Done")
