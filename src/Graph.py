@@ -35,7 +35,7 @@ class Graph:
         # plt.show()
         self.dg = dg
 
-    def schedule(self, ride_schedule):
+    def remove_rides(self, ride_schedule):
         # TODO
         pass
 
