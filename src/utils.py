@@ -6,5 +6,3 @@ def point_dist(p1, p2):
 
 def ride_distance(ride):
     return point_dist(ride['startPoint'], ride['endPoint'])
-
-def build_graph(rides, c, r, t):
