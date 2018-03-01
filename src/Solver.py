@@ -34,7 +34,7 @@ def main(argv=None):
 
     # build schedule greedily (car by car)
     schedule = []
-    for car in numCars:
+    for car in range(numCars):
         edges = graph.find_shortest_path()
         ridesTaken = []
         for edge in edges:
